@@ -1,0 +1,58 @@
+<div class="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
+    <div class="top-border wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;"></div>
+    <div class="right-border wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;"></div>
+    <div class="bottom-border wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;"></div>
+    <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
+  </div>
+<div style="text-align: center; margin-top: 40px;">
+<h1>My Order History</h1>
+</div>
+<mat-card>
+    <mat-card-header></mat-card-header>
+    <mat-card-content>
+
+<table mat-table [dataSource]="datasource" class="mat-elevation-z8"  matSort>
+
+    <ng-container matColumnDef="#">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let i = index"> {{ i + 1 }} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="Description">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef> Description</th>
+        <td mat-cell *matCellDef="let element">{{element.itemDescription}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Creator">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Creator</th>
+        <td mat-cell *matCellDef="let item">{{item.costumer?.username}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Delivery Date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Delivery Date</th>
+        <td mat-cell *matCellDef="let item">{{item.deliveryDate}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+        <td mat-cell *matCellDef="let item">{{item.status}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef=""> Action</th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="seeMore(element)"> See more </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+</table>
+
+</mat-card-content>
+<br>
+<mat-card-footer>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons=""></mat-paginator>
+</mat-card-footer>
+</mat-card>

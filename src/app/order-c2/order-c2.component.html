@@ -1,0 +1,36 @@
+<div class="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
+    <div class="top-border wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;"></div>
+    <div class="right-border wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;"></div>
+    <div class="bottom-border wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;"></div>
+    <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
+  </div>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<form>
+<h2>2 - STEP. Enter delivery date and item description</h2>
+<div [formGroup]="dateForm">
+    <div *ngIf="errorMessage">
+      <span style="color: red;">{{errorMessage}}</span>
+    </div>
+    <div class="input-group-prepend" *ngIf="dateForm.get('date')?.hasError('required') && dateForm.get('date')?.touched">
+              </div>
+<mat-form-field>
+    <mat-label>Choose a delivery date</mat-label>
+    <input formControlName="date" matInput [matDatepicker]="picker" (dateChange)="dateChanged($event)">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+      <div style="margin-top: 30px;" [formGroup]="description">
+        <div *ngIf="description.get('description')?.hasError('required') && description.get('description')?.touched">
+          <span style="color: red;">Item description is required</span>
+        </div>
+        <div class="text-box">
+        <textarea formControlName="description" style="margin-left: 550px; width: 70%;" id="exampleTextarea" placeholder="Item description" rows="5" (input)="validateDescription()"></textarea>
+        </div>
+      </div>
+      <div style="margin-top: 60px;">
+        <button type="submit" style="width: 19%; margin-left: 41%;" class="btn btn-primary btn-block" [disabled]="!validateAll()" (click)="onSubmit()"> Create </button>
+      </div>
+    </form>
+  

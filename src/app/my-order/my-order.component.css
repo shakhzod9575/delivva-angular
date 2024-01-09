@@ -1,0 +1,41 @@
+.map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    border: 2px solid #ccc;
+    padding: 20px;
+    width: 1000px;
+    transition: height 0.3s;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.add-text {
+    margin-left: 77px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.custom-button {
+    background-color: #3041e2; /* Green background color */
+    border: none; /* Remove border */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove text underline */
+    display: inline-block; /* Display as a block element */
+    font-size: 16px; /* Set font size */
+    cursor: pointer; /* Change cursor to pointer */
+    border-radius: 5px; /* Add border radius */
+  }
+  
+  .custom-button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+  }

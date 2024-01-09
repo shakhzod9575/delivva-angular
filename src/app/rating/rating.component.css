@@ -1,0 +1,8 @@
+container {
+    width: 600px;
+    height: 600px;
+}
+
+::ng-deep label.star {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,44 @@
+.container {
+    text-align: center;
+}
+
+select {
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-width: 6px;
+}
+
+.limited-height-list {
+    max-height: 200px; /* Set the maximum height as per your requirement */
+    overflow-y: auto; /* Enable vertical scrolling if the content exceeds the maximum height */
+    border: 1px solid #ccc; /* Add a border for visual separation */
+    padding: 8px; /* Add padding for better appearance */
+  }
+
+option {
+    font-size: 30px;
+    cursor: pointer;
+}
+.my-custom-scrollbar {
+    position: relative;
+    height: 300px;
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.circle-container {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.circle-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}

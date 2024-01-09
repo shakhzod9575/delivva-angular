@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div class="container" [formGroup]="rating">
+    <ngx-star-rating formControlName="rating" [id]="'rating'" ></ngx-star-rating>
+    <div style=" margin-top: 20px; margin-bottom: 10px; text-align: center;">
+        <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="onSubmit()"> Submit </button>
+        <button mat-raised-button (click)="onCancel()"> Cancel </button>
+    </div>
+</div>

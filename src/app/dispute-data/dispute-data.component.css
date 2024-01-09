@@ -1,0 +1,23 @@
+.form-container {
+    border: 2px solid #ccc;
+    padding: 20px;
+    width: 1000px;
+    transition: height 0.3s;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.add-text {
+    margin-left: 77px;
+    margin-bottom: 20px;
+}
+
+.custom-right-margin {
+    margin-right: 5px;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px;
+}

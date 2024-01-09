@@ -1,0 +1,35 @@
+
+<div class="t-comments-box">
+    <div class="comment-title">
+      Disputes
+    </div>
+    <div><span style="margin-right: 5px;"> Choose dispute type</span></div>
+    <select style="width: 600px; cursor: pointer; margin-bottom: 5px;" [(ngModel)]="selectedDisputeType" (change)="onDisputeTypeChange()">
+      <option *ngFor="let dType of disputeTypes" [ngValue]="dType">
+        {{dType.name}}
+      </option>
+    </select>
+    <div class="add-comment">
+      <!-- <img [src]="url_1" alt="" /> -->
+      <div class="comment-input">
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          placeholder="Write something.."
+          [(ngModel)]="enteredDescription"
+        />
+      </div>
+      <button style="margin: auto; margin-left: 10px; margin-top: 5px;" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!validateInputs()"> Raise</button>
+    </div>
+    <div class="comment comment-level-1">
+      <div>
+        <div class="comment-label">
+          <span class="comment-name">{{disputeUser.firstName}} {{disputeUser.lastName}}  - </span>
+          <span class="badge badge-success"> {{dispute.disputeTypeName}}</span>
+        </div>
+        <div class="comment-content">
+          {{dispute.description}}
+        </div>
+      </div>
+    </div>
+  </div>

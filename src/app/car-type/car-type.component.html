@@ -1,0 +1,58 @@
+<div class="page-border" data-wow-duration="0.7s" data-wow-delay="0.2s">
+    <div class="top-border wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;"></div>
+    <div class="right-border wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;"></div>
+    <div class="bottom-border wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;"></div>
+    <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
+  </div>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<div class="container">
+    <h2 style="margin-top: 80px;">Choose Car Type and Invite Cxsptouriers</h2>
+<select name="vehicleType" style="width: 150px; height: 40px; cursor: pointer;" aria-label=".form-select-lg example" [(ngModel)]="selectedVehicleType" (change)="onVehicleTypeChange()">
+    <option *ngFor="let vehicleType of vehicleTypes" [ngValue]="vehicleType">
+      {{vehicleType.name}}
+    </option>
+  </select>
+  
+  <div class="table-wrapper-scroll-y my-custom-scrollbar"
+    *ngIf="selectedVehicleType"
+  >
+
+    <table class="table table-bordered table-striped mb-0">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Photo</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courier of couriers; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>
+            <div class="circle-container">
+            <img class="circle-image" [src]="courier.photoLink">
+          </div>
+          </td>
+          <td>{{courier.firstName}} {{courier.lastName}}</td>
+          <td>{{courier.phoneNumber}}</td>
+          <td>{{courier.username}}</td>
+          <td>{{courier.email}}</td>
+          <td>{{courier.rate}}</td>
+          <td>
+            <button mat-raised-button (click)="sendInvitation(courier)">Invite</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top: 80px;">
+    <button type="submit" style="width: 19%; margin-left: 41%;" class="btn btn-primary btn-block" (click)="onSubmit()"> Finish </button>
+  </div>
+</div>
+
+
