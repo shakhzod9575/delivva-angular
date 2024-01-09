@@ -6,3 +6,8 @@ container {
 ::ng-deep label.star {
     margin-bottom: 10px;
 }
+
+.star-rating {
+    font-size: 2em;
+    color: #ffc107;
+  }

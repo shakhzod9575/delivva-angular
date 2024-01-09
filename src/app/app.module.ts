@@ -39,7 +39,6 @@ import {MatSortModule} from '@angular/material/sort'
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog'
-import { NgxStarRatingModule } from 'ngx-star-rating';
 import { RatingComponent } from './rating/rating.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
@@ -116,7 +115,6 @@ import { SeeOrderComponent } from './see-order/see-order.component';
     MatSortModule,
     MatCardModule,
     MatButtonModule,
-    NgxStarRatingModule,
     MatDialogModule,
     ToastrModule.forRoot(),
     SocialLoginModule,
