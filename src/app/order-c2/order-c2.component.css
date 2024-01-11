@@ -3,9 +3,14 @@ form {
     margin-top: 80px;
 }
 .text-box {
-    width: 30%;
+    text-align: center;
 }
 
 .text-box-div {
     margin-top: 20px;
+}
+
+.map-container {
+    justify-content: center;
+    align-items: center;
 }

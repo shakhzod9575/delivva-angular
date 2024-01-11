@@ -9,6 +9,8 @@ export interface Order {
         longitude?: number;
         latitude?: number;
     };
+    startingPlace?: string;
+    finalPlace?: string;
     costumer: {
         id?: number;
         firstName?: string;
@@ -26,5 +28,7 @@ export interface Order {
         username?: string;
     };
     deliveryDate?: string;
+    deliveryStartedAt?: string;
+    deliveryFinishedAt?: string;
     status?: string;
 }

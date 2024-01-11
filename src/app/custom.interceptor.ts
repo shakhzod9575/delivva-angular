@@ -32,7 +32,7 @@ export class CustomInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-    const token = this.cookieService.get('token');
+    const token = localStorage.getItem('token');
     const newRequest = request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

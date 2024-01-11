@@ -30,6 +30,8 @@ import { DeliveryHistoryDataComponent } from './delivery-history-data/delivery-h
 import { DisputeListComponent } from './dispute-list/dispute-list.component';
 import { DisputeDataComponent } from './dispute-data/dispute-data.component';
 import { SeeOrderComponent } from './see-order/see-order.component';
+import { DeliveryDataComponent } from './delivery-data/delivery-data.component';
+import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
 
 const routes: Routes = [
   {
@@ -146,6 +148,10 @@ const routes: Routes = [
     component: DeliveryListComponent
   },
   {
+    path: 'my-delivery/data',
+    component: DeliveryDataComponent
+  },
+  {
     path: 'dispute/list',
     component: DisputeListComponent
   },
@@ -156,6 +162,10 @@ const routes: Routes = [
   {
     path: 'orders/data/visualize',
     component: SeeOrderComponent
+  },
+  {
+    path: 'approve-offer',
+    component: ApproveOfferComponent
   }
 ];
 

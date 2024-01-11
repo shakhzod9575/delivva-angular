@@ -5,7 +5,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <form class="form-container">
     <div style="text-align: center;">
-        <h1 style="font-weight: bold;">Order</h1>
+        <h1 style="font-weight: bold;">Delivery</h1>
     </div>
     <div class="add-text">
         <label>Start Destination:<i style="color: blue;" class="material-icons">place</i> </label>
@@ -78,22 +78,23 @@
     <div class="map-container" style="margin-left: 77px; margin-right: 77px;">
         <div id="map" style="width: 100%; height: 400px;"></div>
     </div>
-    <div class="add-text" *ngIf="!(data.status === 'CREATED' || data.status === 'DONE')">
-        <app-dispute></app-dispute>
-    </div>
     <div [ngSwitch]="data.status">
         <div style="text-align: center; margin-top: 10px;" *ngSwitchCase="'CREATED'">
             <button class="custom-button" (click)="cancelAnOrder()" style="margin-right: 5px;">Cancel Order</button>
             <button class="custom-button" routerLink="/my-orders/invite">Invite Courier</button>
         </div>
         <div style="text-align: center; margin-top: 10px;" *ngSwitchCase="'PICKED_UP'">
+            <button *ngIf="!data.deliveryStartedAt" class="custom-button" (click)="startTheDelivery()" style="margin-right: 5px;">Start Delivery</button>
             <button class="custom-button" (click)="cancelAnOrder()">Cancel Order</button>
         </div>
-        <div style="text-align: center; margin-top: 10px;" *ngIf="data.deliveryFinishedAt">
-            <button class="custom-button" style="margin-right: 5px;" (click)="approveDelivery()"> Approve Delivery</button>
-        </div>
         <div style="text-align: center; margin-top: 10px;" *ngSwitchDefault="">
-            <button *ngIf="data.courier.id != currentUserId" class="custom-button" (click)="rateOrder()"> Rate </button>
+            <button *ngIf="!data.deliveryStartedAt" class="custom-button" (click)="startTheDelivery()" style="margin-right: 5px;">Start Delivery</button>
+            <button *ngIf="data.courier.id != currentUserId" class="custom-button" (click)="rateOrder()" style="margin-right: 5px;"> Rate </button>
+        </div>
+        <div style="text-align: center; margin-top: 10px;" *ngIf="data.deliveryStartedAt">
+            <button class="custom-button" (click)="finishTheDelivery()">
+                Finish Delivery
+            </button>
         </div>
     </div>
 </form>

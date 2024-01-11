@@ -6,6 +6,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ProfileService } from '../services/profile/profile.service';
+import { RatingResponse } from '../services/models/rating-response';
 
 @Component({
   selector: 'app-edit-profile',
@@ -31,6 +32,9 @@ export class EditProfileComponent implements OnInit {
   newPhoneNumber!: string;
   newUsername!: string;
   selectedPhotoInFile!: File;
+  rating!: RatingResponse;
+
+  getRatingUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/evaluations/get-courier-rating';
 
 
   constructor(
@@ -52,6 +56,12 @@ export class EditProfileComponent implements OnInit {
     this.username = this.fb.group({
       username: ['', [Validators.required, this.customUsernameValidator()]]
     });
+    const userId = Number(localStorage.getItem('userId'));
+    this.http.get<RatingResponse>(this.getRatingUrl + `?id=${userId}`).subscribe({
+      next: (ratingData: RatingResponse) => {
+        this.rating = ratingData;
+      }
+    })
   }
 
   openFileInput() {

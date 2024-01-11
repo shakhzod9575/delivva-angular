@@ -60,6 +60,9 @@ import { DisputeListComponent } from './dispute-list/dispute-list.component';
 import { DeliveryHistoryDataComponent } from './delivery-history-data/delivery-history-data.component';
 import { DisputeDataComponent } from './dispute-data/dispute-data.component';
 import { SeeOrderComponent } from './see-order/see-order.component';
+import { DeliveryDataComponent } from './delivery-data/delivery-data.component';
+import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
+
 
 @NgModule({
   declarations: [
@@ -97,7 +100,9 @@ import { SeeOrderComponent } from './see-order/see-order.component';
     DisputeListComponent,
     DeliveryHistoryDataComponent,
     DisputeDataComponent,
-    SeeOrderComponent
+    SeeOrderComponent,
+    DeliveryDataComponent,
+    ApproveOfferComponent
   ],
   imports: [
     BrowserModule,
@@ -125,10 +130,10 @@ import { SeeOrderComponent } from './see-order/see-order.component';
         tokenGetter: (): string | null => {
             return localStorage.getItem('token') || null;
         },
-        allowedDomains: ["http://localhost:4200"],
+        allowedDomains: ["http://localhost:4200", "http://delivva-front-end.s3-website-us-east-1.amazonaws.com"],
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
-    }),
+    })
   ],
   providers: [
     HttpClient,

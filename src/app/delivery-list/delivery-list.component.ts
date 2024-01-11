@@ -41,7 +41,7 @@ export class DeliveryListComponent {
   seeMore(element: Order) {
     if (element.id != undefined) {
       localStorage.setItem('orderId', element.id.toString());
-      this.router.navigateByUrl("/my-orders/data");
+      this.router.navigateByUrl("/my-delivery/data");
     }
   }
 }

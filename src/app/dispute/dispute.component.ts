@@ -8,6 +8,9 @@ import { UserData } from '../services/models/get-me-data';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../services/auth/auth.service';
 import { SingleDisputeData } from '../services/models/single-dispute';
+import { error } from 'geotiff/dist-node/logging';
+import { OrderService } from '../services/order/order.service';
+import { Order } from '../services/models/order';
 
 @Component({
   selector: 'app-dispute',
@@ -31,16 +34,9 @@ export class DisputeComponent {
     private http: HttpClient,
     private toastr: ToastrService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private orderService: OrderService
   ) {
-    this.http.get<DisputeData[]>(this.disputeTypeUrl).subscribe({
-      next: (data: any) => {
-        this.disputeTypes = data;
-      }
-    });
-  }
-
-  ngOnInit() {
     const orderId = Number(localStorage.getItem('orderId'));
     this.http.get<SingleDisputeData>(this.disputeDataUrl + `/${orderId}`).subscribe({
       next: (data: SingleDisputeData) => {
@@ -52,8 +48,24 @@ export class DisputeComponent {
             next: (userData: UserData) => this.disputeUser = userData
           });
         }
+      },
+      error: (error: any) => {
+        console.log(error.error.message);
       }
     })
+  }
+
+  ngOnInit() {
+    const orderId = Number(localStorage.getItem('orderId'));
+    this.http.get<DisputeData[]>(this.disputeTypeUrl).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.disputeTypes = data;
+      },
+      error: (error: any) => {
+        this.toastr.error(error.error.message);
+      }
+    });
   }
 
   onDisputeTypeChange() {
@@ -80,6 +92,15 @@ export class DisputeComponent {
       },
       error: (error: any) => {
         this.toastr.error(error.error.message);
+      }
+    })
+  }
+
+  closeTheDispute() {
+    const closeDisputeUrl = this.disputeDataUrl + `/close/${this.dispute.id}`;
+    this.http.put(closeDisputeUrl, null).subscribe({
+      next: () => {
+        this.toastr.success("Dispute is successfully closed!!!");
       }
     })
   }

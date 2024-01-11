@@ -37,11 +37,10 @@ export class AdminDashboardComponent implements OnInit {
             const decodedToken = this.jwtHelper.decodeToken(token);
             const role = decodedToken['authorities'][0]['authority'];
             if(role === 'ROLE_USER') {
-              this.toastr.error("Only admins have an access to the admin dashboard");
               this.router.navigateByUrl("/dashboard");
             }
           }
-          localStorage.setItem('userId', this.userData.id?.toString())
+          localStorage.setItem('userId', this.userData.id?.toString());
         }
       },
       error: (error: any) => {

@@ -59,7 +59,7 @@ export class CarTypeComponent implements OnInit {
     const courierId = Number(courier.id);
     const orderId = Number(localStorage.getItem('orderId'));
     const orderInviteDTO = {
-      courierId: courierId,
+      userId: courierId,
       orderId: orderId
     };
     console.log(orderInviteDTO);

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserData } from '../services/models/get-me-data';
 import { CarData } from '../services/models/car';
 import { ToastrService } from 'ngx-toastr';
+import { RatingResponse } from '../services/models/rating-response';
 
 @Component({
   selector: 'app-profile-data',
@@ -13,10 +14,12 @@ export class ProfileDataComponent implements OnInit {
 
   private getCarUrl = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/vehicles'
   myCar!: CarData;
+  rating!: RatingResponse;
+  userRole!: string;
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
-    const role = localStorage.getItem('role');
-    if (role === 'ROLE_USER') {
+    this.userRole = localStorage.getItem('role') || "";
+    if (this.userRole === 'ROLE_USER') {
       const params = new HttpParams().set("userId", Number(localStorage.getItem('userId')));
       this.http.get<CarData>(this.getCarUrl, { params: params }).subscribe({
         next: (data: CarData) => {
@@ -31,6 +34,7 @@ export class ProfileDataComponent implements OnInit {
   userData!: UserData;
 
   selectedPhotoLink: string = 'https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small/happy-young-cute-illustration-face-profile-png.png';
+  getRatingUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/evaluations/get-courier-rating';
 
   ngOnInit(): void {
     this.http.get<UserData>(this.getMeUrl).subscribe({
@@ -40,6 +44,11 @@ export class ProfileDataComponent implements OnInit {
         if (data.photoLink != null) {
           this.selectedPhotoLink = data.photoLink;
         }
+        this.http.get<RatingResponse>(this.getRatingUrl + `?id=${data.id}`).subscribe({
+          next: (ratingData: RatingResponse) => {
+            this.rating = ratingData;
+          }
+        })
       }
     })
   }

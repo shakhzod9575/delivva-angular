@@ -19,11 +19,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { RatingComponent } from '../rating/rating.component';
 
 @Component({
-  selector: 'app-my-order',
-  templateUrl: './my-order.component.html',
-  styleUrls: ['./my-order.component.css']
+  selector: 'app-delivery-data',
+  templateUrl: './delivery-data.component.html',
+  styleUrls: ['./delivery-data.component.css']
 })
-export class MyOrderComponent implements OnInit {
+export class DeliveryDataComponent implements OnInit {
 
   public map!: Map
   private count = 0;
@@ -158,7 +158,7 @@ export class MyOrderComponent implements OnInit {
 
   cancelAnOrder() {
     const cancelOrder = {
-      courierId: Number(localStorage.getItem('userId')),
+      userId: Number(localStorage.getItem('userId')),
       orderId: Number(localStorage.getItem('orderId'))
     };
     this.http.post(this.cancelOrderUrl, cancelOrder).subscribe({
@@ -176,20 +176,32 @@ export class MyOrderComponent implements OnInit {
     }
   }
 
-  statusChangeUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/status';
 
-  approveDelivery() {
+  private startTheDeliveryUrl = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/status'
+  
+  startTheDelivery() {
     const orderId = Number(localStorage.getItem('orderId'));
-    const status = 'DONE';
-    const statusChangeData = {
+    const status = 'IN_PROGRESS';
+    const startTheDeliveryData = {
       id: orderId,
       status: status
     };
-    this.http.put(this.statusChangeUrl, statusChangeData).subscribe({
+    this.http.put(this.startTheDeliveryUrl, startTheDeliveryData).subscribe({
       next: () => {
-        this.toastr.info("Dispute status is changed to Done!!!");
+        this.toastr.success("Delivery is started!!!");
       }
     })
   }
 
+  private finishTheOrderUrl = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/finish-delivery'
+
+  finishTheDelivery() {
+    const orderId = Number(localStorage.getItem('orderId'));
+    const url = this.finishTheOrderUrl + `?orderId=${orderId}`;
+    this.http.put(url, null).subscribe({
+      next: () => {
+        this.toastr.success("Delivery is successfully finished!!!");
+      }
+    })
+  }
 }

@@ -40,7 +40,7 @@
     </div>
     <div *ngIf="isCreatorCourier()" class="add-text">
         <label> Role: </label>
-        <span>Courier</span>
+        <span class="badge badge-primary">Courier</span>
     </div>
     <div *ngIf="!isCreatorCourier()" class="add-text">
         <label> Role: </label>
@@ -48,6 +48,8 @@
     </div>
     <div class="custom-right-margin">
         <button *ngIf="dispute.status === 'DISPUTE_OPENED'" mat-raised-button color="primary" (click)="startAnalyzing()" style="margin-right: 5px;"> Start analyzing</button>
-        <button mat-raised-button color="primary" (click)="seeAnOrder()"> See an order</button>
+        <button *ngIf="dispute.status === 'UNDER_CONSIDERATION'" mat-raised-button color="primary" (click)="disputeWinner(true)" style="margin-right: 5px;"> Customer Win</button>
+        <button *ngIf="dispute.status === 'UNDER_CONSIDERATION'" mat-raised-button color="primary" (click)="disputeWinner(false)" style="margin-right: 5px;"> Courier Win</button>
+        <button mat-raised-button (click)="seeAnOrder()"> See an order</button>
     </div>
 </form>

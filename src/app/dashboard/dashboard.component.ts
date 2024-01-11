@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,8 @@ export class DashboardComponent implements OnInit {
     private jwtHelper: JwtHelperService, 
     private toastr: ToastrService, 
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private oauthService: SocialAuthService
   ) { 
 
   }
@@ -37,7 +39,6 @@ export class DashboardComponent implements OnInit {
             const decodedToken = this.jwtHelper.decodeToken(token);
             const role = decodedToken['authorities'][0]['authority'];
             if(role === 'ROLE_ADMIN') {
-              this.toastr.error("Only users have an access to the user dashboard");
               this.router.navigateByUrl("/dashboard/admin");
             }
           }
@@ -53,8 +54,9 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     this.cookieService.delete('token');
-    localStorage.clear();
+    localStorage.clear(); 
     this.router.navigateByUrl('/');
+    this.oauthService.signOut();
   }
 
 

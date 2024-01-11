@@ -1,8 +1,12 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<div class="container" >
-    <div class="star-rating">
-        <i class="fa fa-star" *ngFor="let star of stars"></i>
-        <i class="fa fa-star-half" *ngIf="rating % 1 !== 0"></i>
-      </div>
-</div>
+<h2 mat-dialog-title style="text-align: center;">Rate the delivery</h2>
+<mat-dialog-content style="text-align: center;">
+  <div class="star-rating">
+    <span *ngFor="let star of [1, 2, 3, 4, 5]" [class.active]="star <= rating" (click)="setRating(star)">
+      ★
+    </span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button [mat-dialog-close]="false" style="margin-right: 5px;" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" *ngIf="rating != 0" (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

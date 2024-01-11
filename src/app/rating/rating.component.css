@@ -1,13 +1,13 @@
-container {
-    width: 600px;
-    height: 600px;
-}
-
-::ng-deep label.star {
-    margin-bottom: 10px;
-}
-
 .star-rating {
-    font-size: 2em;
-    color: #ffc107;
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  .star-rating span {
+    cursor: pointer;
+    color: #ccc;
+  }
+  
+  .star-rating span.active {
+    color: #ffcc00;
   }

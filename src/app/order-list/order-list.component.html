@@ -5,6 +5,8 @@
     <div class="left-border wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"></div>
   </div>
 <div style="text-align: center; margin-top: 40px;">
+<img *ngIf="userRole === 'ROLE_USER'" style="width: 70px; height: 70px; cursor: pointer;" routerLink="/dashboard" src="assets/images/delivva-logo.png" id="banner-logo"/>
+<img *ngIf="userRole === 'ROLE_ADMIN'" style="width: 70px; height: 70px; cursor: pointer;" routerLink="/dashboard/admin" src="assets/images/delivva-logo.png" id="banner-logo"/>
 <h1>Global Order List</h1>
 </div>
 <mat-card>

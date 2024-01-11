@@ -21,7 +21,7 @@
       </div>
       <button style="margin: auto; margin-left: 10px; margin-top: 5px;" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!validateInputs()"> Raise</button>
     </div>
-    <div class="comment comment-level-1">
+    <div class="comment comment-level-1" *ngIf="dispute">
       <div>
         <div class="comment-label">
           <span class="comment-name">{{disputeUser.firstName}} {{disputeUser.lastName}}  - </span>
@@ -32,4 +32,7 @@
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="dispute && dispute.status === 'DISPUTE_OPENED'" style="text-align: center; margin-top: 20px; margin-right: 90px;">
+    <button class="custom-button" (click)="closeTheDispute()" > Close dispute </button>
   </div>

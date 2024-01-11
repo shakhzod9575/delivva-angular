@@ -92,6 +92,23 @@
     max-width: 600px;
     overflow-y: auto; /* Enable vertical scrolling when content exceeds the height */
   }
+
+  .custom-button {
+    background-color: #3041e2; /* Green background color */
+    border: none; /* Remove border */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove text underline */
+    display: inline-block; /* Display as a block element */
+    font-size: 16px; /* Set font size */
+    cursor: pointer; /* Change cursor to pointer */
+    border-radius: 5px; /* Add border radius */
+  }
+
+  .custom-button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+  }
   
   
   

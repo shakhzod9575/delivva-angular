@@ -6,7 +6,7 @@
 </div>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <div style="text-align: center; margin-top: 50px; width: auto;">
-  <h3>1 - STEP. Choose the starting and final destinations</h3>
+  <h3>Choose the starting and final destinations</h3>
   <input style="border-radius: 7px; margin-right: 5px; width: auto;" [(ngModel)]="searchQueryFrom" placeholder="From" />
   <input style="border-radius: 7px; margin-right: 5px; width: auto;" [(ngModel)]="searchQueryTo" placeholder="To" />
   <button style="
@@ -24,7 +24,7 @@
     <div id="map" style="width: 700px; height: 400px;"></div>
   </div>
   <div style="margin-top: 30px;">
-    <button style="width: 19%; margin-left: 41%;" class="btn btn-primary btn-block" type="submit"
-      [disabled]="!checkAll()" (click)="onSubmit()"> Next </button>
+    <button type="submit" style="width: 150px; text-align: center;" mat-raised-button color="primary"
+        [disabled]="!checkAll()" (click)="onSubmit()"> Next </button>
   </div>
 </div>

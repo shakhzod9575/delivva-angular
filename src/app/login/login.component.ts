@@ -86,7 +86,17 @@ export class LoginComponent implements OnInit {
         },
         error: (error: any) => {
           const message = error.error.message;
-          this.toastr.error(message);
+          if(message === 'VERIFIED') {
+            this.router.navigateByUrl('/fill-profile');
+            this.toastr.error("You should fill this form first to login!!!")
+          } else if(message === 'CREATED') {
+            this.router.navigateByUrl('/verify');
+            this.toastr.error("You should verify your email first!!!");
+          } else if(message === 'DELETED') {
+            this.toastr.error("This email has not been registered yet. Please register first");
+          } else {
+            this.toastr.error(message);
+          }
         }
       });
   }

@@ -65,7 +65,7 @@ export class OrderListComponent implements OnInit{
     const courierId = Number(localStorage.getItem('userId'));
     const orderId = order.id;
     const orderInviteDTO = {
-      courierId: courierId,
+      userId: courierId,
       orderId: orderId
     };
 
