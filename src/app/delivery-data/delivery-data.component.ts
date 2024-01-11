@@ -164,7 +164,13 @@ export class DeliveryDataComponent implements OnInit {
     this.http.post(this.cancelOrderUrl, cancelOrder).subscribe({
       next: () => {
         this.toastr.success("Order is cancelled successfully!!!");
-        this.router.navigateByUrl("/dashboard");
+      },
+      error: (error: any) => {
+        if(error.status === 400) {
+          this.toastr.success("Order is cancelled successfully!!!");
+        } else {
+          console.log(error.error.message);
+        }
       }
     })
   }

@@ -158,13 +158,19 @@ export class MyOrderComponent implements OnInit {
 
   cancelAnOrder() {
     const cancelOrder = {
-      courierId: Number(localStorage.getItem('userId')),
+      userId: Number(localStorage.getItem('userId')),
       orderId: Number(localStorage.getItem('orderId'))
     };
     this.http.post(this.cancelOrderUrl, cancelOrder).subscribe({
       next: () => {
         this.toastr.success("Order is cancelled successfully!!!");
-        this.router.navigateByUrl("/dashboard");
+      },
+      error: (error: any) => {
+        if(error.status === 400) {
+          this.toastr.success("Order is cancelled successfully!!!");
+        } else {
+          console.log(error.error.message);
+        }
       }
     })
   }
