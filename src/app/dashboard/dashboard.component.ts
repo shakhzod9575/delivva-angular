@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { productSales } from '../services/models/data';
+import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +15,62 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  productSales!: any[];
+  view: [number, number] = [1000, 450];
+  tooltip = true;
+
+  // options
+  legendTitle: string = 'Usage Types';
+  legendTitleMulti: string = 'Months';
+  legendPosition: LegendPosition = LegendPosition.Right; // ['right', 'below']
+  legend: boolean = true;
+
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+
+  yAxisLabel: string = 'Quantity';
+  xAxisLabel: string = 'Usage';
+  showXAxisLabel: boolean = true;
+  showYAxisLabel: boolean = true;
+
+  maxXAxisTickLength: number = 30;
+  maxYAxisTickLength: number = 30;
+  trimXAxisTicks: boolean = false;
+  trimYAxisTicks: boolean = false;
+  rotateXAxisTicks: boolean = false;
+
+  xAxisTicks: any[] = ['Genre 1', 'Genre 2', 'Genre 3', 'Genre 4', 'Genre 5', 'Genre 6', 'Genre 7']
+  yAxisTicks: any[] = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150]
+
+  animations: boolean = true; // animations on load
+
+  showGridLines: boolean = true; // grid lines
+
+  showDataLabel: boolean = true; // numbers on bars
+
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+
+  gradient: boolean = false;
+  colorScheme: Color = {name: 'test', selectable: true, group: ScaleType.Ordinal, domain: ['#704FC4', '#4B852C', '#B67A3D', '#5B6FC8', '#25706F']};
+  schemeType: ScaleType = ScaleType.Ordinal; // 'ordinal' or 'linear'
+
+  activeEntries: any[] = ['book']
+  barPadding: number = 20
+  tooltipDisabled: boolean = false;
+
+  yScaleMax: number = 9000;
+
+  roundEdges: boolean = false;
+
+  // formatString(input: string): string {
+  //   return input.toUpperCase()
+  // }
+
+  formatNumber(input: number): number {
+    return input
+  }
 
   constructor(
     private http: HttpClient, 
@@ -22,12 +80,12 @@ export class DashboardComponent implements OnInit {
     private cookieService: CookieService,
     private oauthService: SocialAuthService
   ) { 
-
+    Object.assign(this, {productSales});
   }
 
   userData!: UserData;
 
-  getMeUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users';
+  getMeUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users';
 
   ngOnInit(): void {
     this.http.get<UserData>(this.getMeUrl).subscribe({

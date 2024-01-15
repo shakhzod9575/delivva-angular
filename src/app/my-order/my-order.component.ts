@@ -17,6 +17,7 @@ import LineString from 'ol/geom/LineString';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingComponent } from '../rating/rating.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-my-order',
@@ -36,7 +37,8 @@ export class MyOrderComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    private matRef: MatDialog
+    private matRef: MatDialog,
+    private location: Location
   ) {
     this.currentUserId = Number(localStorage.getItem('userId'));
   }
@@ -154,7 +156,7 @@ export class MyOrderComponent implements OnInit {
     );
   }
 
-  private cancelOrderUrl = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/cancel';
+  private cancelOrderUrl = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/cancel';
 
   cancelAnOrder() {
     const cancelOrder = {
@@ -163,14 +165,10 @@ export class MyOrderComponent implements OnInit {
     };
     this.http.post(this.cancelOrderUrl, cancelOrder).subscribe({
       next: () => {
-        this.toastr.success("Order is cancelled successfully!!!");
+        window.location.reload();
       },
       error: (error: any) => {
-        if(error.status === 400) {
-          this.toastr.success("Order is cancelled successfully!!!");
-        } else {
-          console.log(error.error.message);
-        }
+        console.log(error.error.message);
       }
     })
   }
@@ -193,7 +191,7 @@ export class MyOrderComponent implements OnInit {
     };
     this.http.put(this.statusChangeUrl, statusChangeData).subscribe({
       next: () => {
-        this.toastr.info("Dispute status is changed to Done!!!");
+        window.location.reload();
       }
     })
   }

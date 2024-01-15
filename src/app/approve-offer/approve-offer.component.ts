@@ -18,7 +18,7 @@ export class ApproveOfferComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  approveOrderUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/approve-offer'
+  approveOrderUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/approve-offer'
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: { [x: string]: any; }) => {

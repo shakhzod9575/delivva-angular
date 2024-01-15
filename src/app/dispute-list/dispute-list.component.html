@@ -36,7 +36,17 @@
 
     <ng-container matColumnDef="Status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
-        <td mat-cell *matCellDef="let item"><span style="margin-left: 5px;" class="badge badge-success">{{item.status}}</span></td>
+        <td mat-cell *matCellDef="let item"><span style="margin-left: 5px;" class="badge badge-success">{{
+        item.status === 'CREATED' ? 'Order is created' : 
+            (item.status === 'PICKED_UP' ? 'Order is picked up by courier' : 
+            (item.status === 'IN_PROGRESS' ? 'Order is on the way' : 
+            (item.status === 'REJECTED_BY_COURIER' ? 'Order is rejected by courier' : 
+            (item.status === 'REJECTED_BY_CUSTOMER' ? 'Order is cancelled by customer' : 
+            (item.status === 'DISPUTE_OPENED' ? 'Dispute is opened' : 
+            (item.status === 'DISPUTE_CLOSED_BY_CUSTOMER' ? 'Dispute is closed by customer' : 
+            (item.status === 'UNDER_CONSIDERATION' ? 'Dispute is under consideration' : 
+            (item.status === 'DISPUTE_CLOSED_CUSTOMER_WIN' ? 'Dispute is closed and customer is a winner' : 
+            (item.status === 'DISPUTE_CLOSED_COURIER_WIN' ? 'Dispute is closed and courier is a winner' : 'Order is successfully delivered!!!')))))))))}}</span></td>
     </ng-container>
 
     <ng-container matColumnDef="Action">

@@ -14,7 +14,7 @@ export class ResendEmailComponent {
     private router: Router
   ) {}
 
-  private resendUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/auth/resend-confirmation';
+  private resendUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/resend-confirmation';
 
   onSubmit() {
     const email = localStorage.getItem('userEmail');

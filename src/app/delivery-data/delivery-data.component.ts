@@ -154,7 +154,7 @@ export class DeliveryDataComponent implements OnInit {
     );
   }
 
-  private cancelOrderUrl = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/cancel';
+  private cancelOrderUrl = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/cancel';
 
   cancelAnOrder() {
     const cancelOrder = {
@@ -163,7 +163,7 @@ export class DeliveryDataComponent implements OnInit {
     };
     this.http.post(this.cancelOrderUrl, cancelOrder).subscribe({
       next: () => {
-        this.toastr.success("Order is cancelled successfully!!!");
+        window.location.reload();
       },
       error: (error: any) => {
         if(error.status === 400) {
@@ -183,7 +183,7 @@ export class DeliveryDataComponent implements OnInit {
   }
 
 
-  private startTheDeliveryUrl = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/status'
+  private startTheDeliveryUrl = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/status'
   
   startTheDelivery() {
     const orderId = Number(localStorage.getItem('orderId'));
@@ -194,19 +194,25 @@ export class DeliveryDataComponent implements OnInit {
     };
     this.http.put(this.startTheDeliveryUrl, startTheDeliveryData).subscribe({
       next: () => {
-        this.toastr.success("Delivery is started!!!");
+        window.location.reload();
+      },
+      error: (error: any) => {
+        this.toastr.error(error.error.message);
       }
     })
   }
 
-  private finishTheOrderUrl = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/finish-delivery'
+  private finishTheOrderUrl = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/finish-delivery'
 
   finishTheDelivery() {
     const orderId = Number(localStorage.getItem('orderId'));
     const url = this.finishTheOrderUrl + `?orderId=${orderId}`;
     this.http.put(url, null).subscribe({
       next: () => {
-        this.toastr.success("Delivery is successfully finished!!!");
+        window.location.reload();
+      },
+      error: (error: any) => {
+        this.toastr.error(error.error.message);
       }
     })
   }

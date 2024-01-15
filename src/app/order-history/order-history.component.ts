@@ -17,7 +17,7 @@ export class OrderHistoryComponent {
   orders!: Order[];
   displayedColumns: string[] = ["#", "Description", "Creator", "Delivery Date", "Status", "Action"];
   datasource: any;
-  getOrderListUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/get-history-orders';
+  getOrderListUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/get-history-orders';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

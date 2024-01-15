@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AddCarComponent implements OnInit {
 
   vehicleTypes?: CarType[];
-  carTypeUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/vehicle-types';
+  carTypeUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/vehicle-types';
   selectedVehicleType: FormGroup;
   selectedColor: FormGroup;
   carModel: FormGroup;
@@ -85,7 +85,7 @@ export class AddCarComponent implements OnInit {
     return this.isColorSelected && this.isTypeSelected && this.isCarModelEntered && this.isRegNumEntered;
   }
 
-  carRegisterUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/vehicles'
+  carRegisterUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/vehicles'
 
   onSubmit() {
     const carData = {
@@ -99,9 +99,11 @@ export class AddCarComponent implements OnInit {
       next: (data: any) => {
         console.log(data);
         this.router.navigateByUrl('/dashboard');
-        this.toastr.success("Car is successfully registered!!");
+        this.toastr.success("Car is successfully registered. You can see it on My Profile section!!!");
       },
       error: (error: any) => {
+        const message = error.error.message;
+        if(message != null)
         this.toastr.error("Already have a car. You can register only one car!!!");
         this.router.navigateByUrl('/dashboard');
       }

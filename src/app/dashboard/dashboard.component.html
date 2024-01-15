@@ -1,7 +1,8 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <!------ Include the above in your HEAD tag ---------->
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css"
+    rel="stylesheet">
 
 
 
@@ -13,14 +14,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img style="width: 70px; height: 70px;" src="assets/images/delivva-logo.png" id="banner-logo"/>
+            <img style="width: 70px; height: 70px;" src="assets/images/delivva-logo.png" id="banner-logo" />
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="fa fa-user-circle"></i> {{userData.firstName}} {{userData.lastName}} <span class="caret"></span></a>
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i
+                            class="fa fa-user-circle"></i> {{userData.firstName}} {{userData.lastName}} <span
+                            class="caret"></span></a>
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
                         <li><a routerLink="/profile"><i class="fa fa-user-secret"></i> My Profile</a></li>
+                        <li><a style="cursor: pointer;"><i class="fa fa-trash"></i> Delete Account</a></li>
                     </ul>
                 </li>
                 <li><a (click)="logout()" style="cursor: pointer;"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -43,7 +47,8 @@
         <li><a routerLink="/my-delivery/list"><i class="fa fa-truck"></i> My Deliveries</a></li>
         <li><a routerLink="/orders/list"><i class="fa fa-list"></i> Global Order List</a></li>
         <li class="dropdown">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="fa fa-history"></i> History <span class="caret"></span></a>
+            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="fa fa-history"></i>
+                History <span class="caret"></span></a>
             <ul id="g-account-menu" class="dropdown-menu" role="menu">
                 <li><a routerLink="/my-delivery/history"> Delivery</a></li>
                 <li><a routerLink="/my-orders/history"> Order</a></li>
@@ -54,4 +59,8 @@
 <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
     <strong><span class="fa fa-dashboard"></span> My Dashboard</strong>
     <hr>
+    <ngx-charts-bar-horizontal [results]="productSales" [view]="view" [scheme]="colorScheme" [schemeType]="schemeType" [gradient]="gradient" [xAxis]="xAxis" [yAxis]="yAxis" [legend]="legend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="yAxisLabel" [yAxisLabel]="xAxisLabel" [legendTitle]="legendTitle" [legendPosition]="legendPosition" [animations]="animations" [showGridLines]="showGridLines" [trimXAxisTicks]="trimXAxisTicks" [trimYAxisTicks]="trimYAxisTicks"
+    [rotateXAxisTicks]="rotateXAxisTicks" [maxXAxisTickLength]="maxXAxisTickLength" [maxYAxisTickLength]="maxYAxisTickLength" [xAxisTickFormatting]="formatNumber" [xAxisTicks]="yAxisTicks" [showDataLabel]="showDataLabel"
+    [barPadding]="barPadding" [tooltipDisabled]="tooltipDisabled" [roundEdges]="roundEdges"></ngx-charts-bar-horizontal>
 </div>

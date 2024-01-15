@@ -32,6 +32,7 @@ import { DisputeDataComponent } from './dispute-data/dispute-data.component';
 import { SeeOrderComponent } from './see-order/see-order.component';
 import { DeliveryDataComponent } from './delivery-data/delivery-data.component';
 import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
+import { RefreshComponent } from './refresh/refresh.component';
 
 const routes: Routes = [
   {
@@ -166,6 +167,10 @@ const routes: Routes = [
   {
     path: 'approve-offer',
     component: ApproveOfferComponent
+  },
+  {
+    path: 'refresh',
+    component: RefreshComponent
   }
 ];
 

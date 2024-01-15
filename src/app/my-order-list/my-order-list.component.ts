@@ -17,7 +17,7 @@ export class MyOrderListComponent {
   orders!: Order[];
   displayedColumns: string[] = ["#", "Description", "Creator", "Delivery Date", "Status", "Action"];
   datasource: any;
-  getOrderListUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/get-active-orders';
+  getOrderListUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/get-active-orders';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

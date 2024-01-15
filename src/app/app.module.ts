@@ -62,6 +62,8 @@ import { DisputeDataComponent } from './dispute-data/dispute-data.component';
 import { SeeOrderComponent } from './see-order/see-order.component';
 import { DeliveryDataComponent } from './delivery-data/delivery-data.component';
 import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
+import { RefreshComponent } from './refresh/refresh.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -102,7 +104,8 @@ import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
     DisputeDataComponent,
     SeeOrderComponent,
     DeliveryDataComponent,
-    ApproveOfferComponent
+    ApproveOfferComponent,
+    RefreshComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +136,8 @@ import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
         allowedDomains: ["http://localhost:4200", "http://delivva-front-end.s3-website-us-east-1.amazonaws.com"],
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
-    })
+    }),
+    NgxChartsModule
   ],
   providers: [
     HttpClient,

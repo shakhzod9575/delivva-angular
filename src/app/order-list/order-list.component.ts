@@ -18,13 +18,13 @@ export class OrderListComponent implements OnInit{
   orders!: Order[];
   displayedColumns: string[] = ["#", "Description", "Creator", "Delivery Date", "Action"];
   datasource: any;
-  getOrderListUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/get-active-orders';
+  getOrderListUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/get-active-orders';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   userRole!: string;
   currentPage!: number;
   pageSize!: number;
-  private getCarUrl = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/vehicles';
+  private getCarUrl = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/vehicles';
   myCar!: CarData;
 
   constructor(

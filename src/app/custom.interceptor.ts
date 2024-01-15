@@ -15,14 +15,14 @@ import { ToastrService } from 'ngx-toastr';
 export class CustomInterceptor implements HttpInterceptor {
 
   private excludedUrls: string[] = [
-    '/api/v1/auth/login', 
-    '/api/v1/auth/register',
-    '/api/v1/auth/login-oauth',
-    '/api/v1/auth/confirm-email',
-    '/api/v1/auth/resend-confirmation',
-    '/api/v1/users/fill-profile',
-    '/api/v1/users/picture',
-    '/api/v1/users/by-car-type'
+    '/auth/login', 
+    '/auth/register',
+    '/auth/login-oauth',
+    '/auth/confirm-email',
+    '/auth/resend-confirmation',
+    '/auth/users/fill-profile',
+    '/auth/users/picture',
+    '/auth/users/by-car-type'
   ];
 
   constructor(private router: Router, private cookieService: CookieService, private toastr: ToastrService) {}

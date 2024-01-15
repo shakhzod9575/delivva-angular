@@ -33,8 +33,9 @@ export class EditProfileComponent implements OnInit {
   newUsername!: string;
   selectedPhotoInFile!: File;
   rating!: RatingResponse;
+  userRole!: string;
 
-  getRatingUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/evaluations/get-courier-rating';
+  getRatingUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/evaluations/get-courier-rating';
 
 
   constructor(
@@ -44,6 +45,7 @@ export class EditProfileComponent implements OnInit {
     private router: Router,
     private service: ProfileService
   ) {
+    this.userRole = localStorage.getItem('role') || '';
     this.firstName = this.fb.group({
       firstName: ['', [Validators.required, this.customFullNameValidator()]]
     });

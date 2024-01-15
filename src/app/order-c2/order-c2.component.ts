@@ -60,7 +60,7 @@ export class OrderC2Component implements OnInit {
     return this.makeClickable = this.isItemDescProvided && this.isDateProvided;
   }
 
-  addOrderUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/create';
+  addOrderUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders';
 
   onSubmit() {
     const lonFrom = localStorage.getItem('lonFrom');

@@ -11,8 +11,8 @@ export class LoginService {
     
   }
 
-  private oauthLoginUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/auth/login-oauth';
-  private loginUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/auth/login';
+  private oauthLoginUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/login-oauth';
+  private loginUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/login';
 
   loginViaCredentials(loginData: any) {
     return this.http.post<any>(this.loginUrl, loginData);

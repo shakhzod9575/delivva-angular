@@ -13,7 +13,7 @@ import { RegisterService } from '../services/register/register.service';
 export class RegistrationComponent implements OnInit{
 
   emailForm:FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email])
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)])
   });
 
   passwordForm: FormGroup;
@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit{
   }
 
   validateEmail() {
-    this.isEmailValid = !this.emailForm.get('email')?.hasError('required') && !this.emailForm.get('email')?.hasError('email');
+    this.isEmailValid = !this.emailForm.get('email')?.hasError('required') && !this.emailForm.get('email')?.hasError('pattern');
   }
 
   validatePassword() {

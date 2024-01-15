@@ -13,8 +13,8 @@ import { UserData } from '../services/models/get-me-data';
 })
 export class CarTypeComponent implements OnInit {
 
-  carTypeUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/vehicle-types';
-  couriersByCarType: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users/by-car-type';
+  carTypeUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/vehicle-types';
+  couriersByCarType: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users/by-car-type';
   vehicleTypes?: CarType[];
   selectedVehicleType?: CarType;
   couriers?: Courier[];
@@ -49,7 +49,7 @@ export class CarTypeComponent implements OnInit {
               });
   }
 
-  inviteUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/offer-by-customer';
+  inviteUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/offer-by-customer';
 
   onSubmit() {
     this.router.navigateByUrl('/my-orders/list');

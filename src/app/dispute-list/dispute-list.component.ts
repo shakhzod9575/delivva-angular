@@ -21,7 +21,7 @@ export class DisputeListComponent {
 
   displayedColumns: string[] = ["#", "Description", "Creator", "Dispute Type", "Status", "Action"];
   datasource: any;
-  getDisputeListUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/disputes/all';
+  getDisputeListUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/disputes/all';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   currentPage: number = 0;

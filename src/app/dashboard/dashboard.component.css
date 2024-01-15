@@ -21,3 +21,7 @@
 {
     background-color: #EEEEEE;
 }
+
+:host ::ng-deep text.ng-star-inserted ng-charts {
+    font-size: 10px;
+}

@@ -6,8 +6,8 @@ import { UserData } from '../models/get-me-data';
   providedIn: 'root'
 })
 export class AuthService {
-  private confirmEmailUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/auth/confirm-email';
-  private getUserByIdUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users';
+  private confirmEmailUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/confirm-email';
+  private getUserByIdUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users';
 
   constructor(private http: HttpClient) { }
 

@@ -26,8 +26,8 @@ export class DisputeComponent {
   enteredDescription!: string;
   dispute!: SingleDisputeData;
 
-  disputeTypeUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/dispute-types';
-  disputeDataUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/disputes'
+  disputeTypeUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/disputes/types';
+  disputeDataUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/disputes'
 
   commentForm!: FormGroup;
   constructor(
@@ -88,7 +88,7 @@ export class DisputeComponent {
     console.log(dispute);
     this.http.post<any>(this.disputeDataUrl, dispute).subscribe({
       next: (data: any) => {
-        this.toastr.success("Dispute is raised successfully!!!");
+        window.location.reload();
       },
       error: (error: any) => {
         this.toastr.error(error.error.message);
@@ -100,7 +100,7 @@ export class DisputeComponent {
     const closeDisputeUrl = this.disputeDataUrl + `/close/${this.dispute.id}`;
     this.http.put(closeDisputeUrl, null).subscribe({
       next: () => {
-        this.toastr.success("Dispute is successfully closed!!!");
+        window.location.reload();
       }
     })
   }

@@ -30,7 +30,7 @@ export class RatingComponent {
     this.dialogRef.close();
   }
 
-  ratingUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/evaluations';
+  ratingUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/evaluations';
 
   onSubmit() {
     const orderId = Number(localStorage.getItem('orderId'));

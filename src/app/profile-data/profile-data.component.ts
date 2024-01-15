@@ -12,7 +12,7 @@ import { RatingResponse } from '../services/models/rating-response';
 })
 export class ProfileDataComponent implements OnInit {
 
-  private getCarUrl = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/vehicles'
+  private getCarUrl = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/vehicles'
   myCar!: CarData;
   rating!: RatingResponse;
   userRole!: string;
@@ -29,12 +29,12 @@ export class ProfileDataComponent implements OnInit {
     }
   }
 
-  getMeUrl: string = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users';
+  getMeUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users';
 
   userData!: UserData;
 
   selectedPhotoLink: string = 'https://static.vecteezy.com/system/resources/thumbnails/019/900/322/small/happy-young-cute-illustration-face-profile-png.png';
-  getRatingUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/evaluations/get-courier-rating';
+  getRatingUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/evaluations/get-courier-rating';
 
   ngOnInit(): void {
     this.http.get<UserData>(this.getMeUrl).subscribe({
@@ -56,7 +56,7 @@ export class ProfileDataComponent implements OnInit {
   deleteTheCar() {
     this.http.delete(this.getCarUrl + "/" + this.myCar.id).subscribe({
       next: () => {
-        this.toastr.success("Car is successfully deleted!!!");
+        window.location.reload();
       },
       error: (error) => {
         this.toastr.error(error.error.message);

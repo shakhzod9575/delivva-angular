@@ -10,8 +10,8 @@ export class ProfileService {
 
   constructor(private httpClient: HttpClient, private toastr: ToastrService) { }
 
-  baseUrl: string = "http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users/fill-profile";
-  basePhotoUrl: string = "http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users/picture/";
+  baseUrl: string = "https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users/fill-profile";
+  basePhotoUrl: string = "https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users/picture/";
 
   saveUserProfile(data: ProfileData) {
     return this.httpClient.post<String>(this.baseUrl, data);

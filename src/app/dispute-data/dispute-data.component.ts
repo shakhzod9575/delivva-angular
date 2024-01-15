@@ -19,7 +19,7 @@ export class DisputeDataComponent {
   disputeCreator!: UserData;
   order!: Order;
 
-  getDisputeByOrderIdUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/disputes/';
+  getDisputeByOrderIdUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/disputes/';
 
   constructor(
     private http: HttpClient,
@@ -58,7 +58,7 @@ export class DisputeDataComponent {
     }
   }
 
-  statusChangeUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/status'
+  statusChangeUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/status'
 
   startAnalyzing() {
     const orderId = Number(localStorage.getItem('orderId'));
@@ -69,7 +69,7 @@ export class DisputeDataComponent {
     };
     this.http.put(this.statusChangeUrl, statusChangeData).subscribe({
       next: () => {
-        this.toastr.info("Dispute is under consideration!!!")
+        window.location.reload();
       }
     })
   }
@@ -83,7 +83,7 @@ export class DisputeDataComponent {
     };
     this.http.put(this.statusChangeUrl, statusChangeData).subscribe({
       next: () => {
-        this.toastr.info((isCustomer) ? 'Customer is winner in dispute!!!' : 'Courier is winner in dispute!!!')
+        window.location.reload();
       }
     })
   };

@@ -17,7 +17,17 @@
     </div>
     <div class="add-text">
         <label>Status: </label>
-        <span style="margin-left: 5px;" class="badge badge-success">{{dispute.status}}</span>
+        <span style="margin-left: 5px;" class="badge badge-success">{{
+            dispute.status === 'CREATED' ? 'Order is created' : 
+            (dispute.status === 'PICKED_UP' ? 'Order is picked up by courier' : 
+            (dispute.status === 'IN_PROGRESS' ? 'Order is on the way' : 
+            (dispute.status === 'REJECTED_BY_COURIER' ? 'Order is rejected by courier' : 
+            (dispute.status === 'REJECTED_BY_CUSTOMER' ? 'Order is cancelled by customer' : 
+            (dispute.status === 'DISPUTE_OPENED' ? 'Dispute is opened' : 
+            (dispute.status === 'DISPUTE_CLOSED_BY_CUSTOMER' ? 'Dispute is closed by customer' : 
+            (dispute.status === 'UNDER_CONSIDERATION' ? 'Dispute is under consideration' : 
+            (dispute.status === 'DISPUTE_CLOSED_CUSTOMER_WIN' ? 'Dispute is closed and customer is a winner' : 
+            (dispute.status === 'DISPUTE_CLOSED_COURIER_WIN' ? 'Dispute is closed and courier is a winner' : 'Order is successfully delivered!!!')))))))))}}</span>
     </div>
     <div style="text-align: center;">
         <h1 style="font-weight: bold;">Creator</h1>

@@ -43,4 +43,8 @@
 <div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
     <strong><span class="fa fa-dashboard"></span> My Dashboard</strong>
     <hr>
+    <ngx-charts-bar-horizontal [results]="productSales" [view]="view" [scheme]="colorScheme" [schemeType]="schemeType" [gradient]="gradient" [xAxis]="xAxis" [yAxis]="yAxis" [legend]="legend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="yAxisLabel" [yAxisLabel]="xAxisLabel" [legendTitle]="legendTitle" [legendPosition]="legendPosition" [animations]="animations" [showGridLines]="showGridLines" [trimXAxisTicks]="trimXAxisTicks" [trimYAxisTicks]="trimYAxisTicks"
+    [rotateXAxisTicks]="rotateXAxisTicks" [maxXAxisTickLength]="maxXAxisTickLength" [maxYAxisTickLength]="maxYAxisTickLength" [xAxisTickFormatting]="formatNumber" [xAxisTicks]="yAxisTicks" [showDataLabel]="showDataLabel"
+    [barPadding]="barPadding" [tooltipDisabled]="tooltipDisabled" [roundEdges]="roundEdges"></ngx-charts-bar-horizontal>
 </div>
