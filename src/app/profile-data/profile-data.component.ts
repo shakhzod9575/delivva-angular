@@ -54,7 +54,8 @@ export class ProfileDataComponent implements OnInit {
   }
 
   deleteTheCar() {
-    this.http.delete(this.getCarUrl + "/" + this.myCar.id).subscribe({
+    console.log(this.myCar.id);
+    this.http.delete(this.getCarUrl + `?carId=${this.myCar.id}`).subscribe({
       next: () => {
         window.location.reload();
       },

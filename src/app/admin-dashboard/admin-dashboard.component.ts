@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
-import { productSales } from '../services/models/data';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -71,6 +70,7 @@ export class AdminDashboardComponent implements OnInit {
     return input
   }
 
+  adminDiagramUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/admin-diagram';
 
   constructor(
     private http: HttpClient, 
@@ -79,7 +79,11 @@ export class AdminDashboardComponent implements OnInit {
     private toastr: ToastrService,
     private cookieService: CookieService
   ) {
-    Object.assign(this, {productSales});
+    this.http.get(this.adminDiagramUrl).subscribe({
+      next: (data: any) => {
+        this.productSales = data;
+      }
+    })
   }
 
   userData!: UserData;

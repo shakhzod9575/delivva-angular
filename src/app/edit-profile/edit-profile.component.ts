@@ -141,7 +141,7 @@ export class EditProfileComponent implements OnInit {
     };
   }
 
-  private getMeUrl = 'http://Delivva-testing-environment-env.eba-jighrhr6.us-east-1.elasticbeanstalk.com/api/v1/users';
+  private getMeUrl = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users';
 
   ngOnInit(): void {
     this.http.get<UserData>(this.getMeUrl).subscribe({

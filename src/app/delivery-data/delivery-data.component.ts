@@ -17,6 +17,8 @@ import LineString from 'ol/geom/LineString';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingComponent } from '../rating/rating.component';
+import { TrackNumber } from '../services/models/track-number';
+import { CurrentGeolocation } from '../services/models/current-geolocation';
 
 @Component({
   selector: 'app-delivery-data',
@@ -30,15 +32,30 @@ export class DeliveryDataComponent implements OnInit {
   data!: Order;
   username!: string;
   currentUserId!: number;
+  trackNumber!: TrackNumber;
+  currentGeo!: CurrentGeolocation;
+
+  getTruckNumberUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/track-number';
+  currentGeoLocationUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/geo/current';
 
   constructor(
-    private orderService: OrderService, 
+    private orderService: OrderService,
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
     private matRef: MatDialog
   ) {
     this.currentUserId = Number(localStorage.getItem('userId'));
+    this.http.get(this.getTruckNumberUrl + `?orderId=${localStorage.getItem('orderId')}`).subscribe({
+      next: (trackData: any) => {
+        this.trackNumber = trackData;
+        this.http.get(this.currentGeoLocationUrl + `?trackNumber=${this.trackNumber.trackNumber}`).subscribe({
+          next: (data: any) => {
+            this.currentGeo = data;
+          }
+        })
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -68,6 +85,7 @@ export class DeliveryDataComponent implements OnInit {
       }),
     });
     console.log(order);
+    console.log(this.currentGeo)
     const fromCoordinates = fromLonLat([Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)]);
     const toCoordinates = fromLonLat([Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)]);
     const extent = [
@@ -79,11 +97,18 @@ export class DeliveryDataComponent implements OnInit {
 
     this.map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 1000 });
 
-    this.addMarker([
-      [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
-      [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
-      [30.5234, 50.4501]
-    ]);
+    if (this.data.deliveryStartedAt) {
+      this.addMarker([
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
+        [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
+        [Number(this.currentGeo.path[0].longitude), Number(this.currentGeo.path[0].latitude)]
+      ]);
+    } else {
+      this.addMarker([
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
+        [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)]
+      ]);
+    }
   }
 
   addMarker(coordinatesArray: [number, number][]): void {
@@ -99,7 +124,7 @@ export class DeliveryDataComponent implements OnInit {
       if (this.count === 0) {
         src = '../../assets/images/blue-marker.svg';
         color = 'blue';
-      } else if(this.count === 1) {
+      } else if (this.count === 1) {
         src = '../../assets/images/red-marker.svg'
         color = 'red';
       } else {
@@ -121,9 +146,6 @@ export class DeliveryDataComponent implements OnInit {
       console.log(this.count);
     });
 
-    const routeCoordinatesFrom = coordinatesArray[0];
-    const routeCoordinatesTo = [30.5234, 50.4501]; 
-
     this.count = 0;
 
     let vectorLayer = this.map.getLayers().getArray().find((layer) => layer instanceof VectorLayer) as VectorLayer<VectorSource>;
@@ -136,22 +158,26 @@ export class DeliveryDataComponent implements OnInit {
 
     this.map.addLayer(vectorLayer);
 
-    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
-    this.http.get(url).subscribe({
-      next: (routeData: any) => {
-        const coordinates = routeData.features[0].geometry.coordinates;
-        const route = new LineString(coordinates).transform('EPSG:4326', 'EPSG:3857');
-        const feature = new Feature(route);
-        const vectorSource = vectorLayer!.getSource();
-        if(vectorSource != null) {
-          vectorSource.addFeature(feature);
+    if (this.data.deliveryStartedAt) {
+      const routeCoordinatesFrom = coordinatesArray[0];
+      const routeCoordinatesTo = coordinatesArray[2];
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
+      this.http.get(url).subscribe({
+        next: (routeData: any) => {
+          const coordinates = routeData.features[0].geometry.coordinates;
+          const route = new LineString(coordinates).transform('EPSG:4326', 'EPSG:3857');
+          const feature = new Feature(route);
+          const vectorSource = vectorLayer!.getSource();
+          if (vectorSource != null) {
+            vectorSource.addFeature(feature);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching route:', error);
         }
-      },
-      error: (error) => {
-        console.error('Error fetching route:', error);
       }
+      );
     }
-    );
   }
 
   private cancelOrderUrl = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/cancel';
@@ -166,7 +192,7 @@ export class DeliveryDataComponent implements OnInit {
         window.location.reload();
       },
       error: (error: any) => {
-        if(error.status === 400) {
+        if (error.status === 400) {
           this.toastr.success("Order is cancelled successfully!!!");
         } else {
           console.log(error.error.message);
@@ -184,7 +210,7 @@ export class DeliveryDataComponent implements OnInit {
 
 
   private startTheDeliveryUrl = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/status'
-  
+
   startTheDelivery() {
     const orderId = Number(localStorage.getItem('orderId'));
     const status = 'IN_PROGRESS';

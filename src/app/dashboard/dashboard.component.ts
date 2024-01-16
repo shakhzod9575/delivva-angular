@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { productSales } from '../services/models/data';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
@@ -72,6 +71,8 @@ export class DashboardComponent implements OnInit {
     return input
   }
 
+  userDiagramUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/user-diagram';
+
   constructor(
     private http: HttpClient, 
     private jwtHelper: JwtHelperService, 
@@ -80,7 +81,11 @@ export class DashboardComponent implements OnInit {
     private cookieService: CookieService,
     private oauthService: SocialAuthService
   ) { 
-    Object.assign(this, {productSales});
+    this.http.get(this.userDiagramUrl + `?userId=${localStorage.getItem('userId')}`).subscribe({
+      next: (data: any) => {
+        this.productSales = data;
+      }
+    })
   }
 
   userData!: UserData;
@@ -104,8 +109,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        this.router.navigateByUrl('/');
-        this.toastr.error("Please login to continue!!!");
+        console.log(error.error.message);
       }
     })
   }
