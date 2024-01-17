@@ -64,6 +64,7 @@ import { DeliveryDataComponent } from './delivery-data/delivery-data.component';
 import { ApproveOfferComponent } from './approve-offer/approve-offer.component';
 import { RefreshComponent } from './refresh/refresh.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -137,7 +138,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
     }),
-    NgxChartsModule
+    NgxChartsModule,
+    MatSelectModule
   ],
   providers: [
     HttpClient,

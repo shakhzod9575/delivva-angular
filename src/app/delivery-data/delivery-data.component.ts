@@ -34,6 +34,7 @@ export class DeliveryDataComponent implements OnInit {
   currentUserId!: number;
   trackNumber!: TrackNumber;
   currentGeo!: CurrentGeolocation;
+  currentSpeed!: number;
 
   getTruckNumberUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/track-number';
   currentGeoLocationUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/geo/current';
@@ -59,6 +60,14 @@ export class DeliveryDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentSpeed = Math.floor(Math.random() * 201);
+    setInterval(() => {
+      // Generate a random number between 0 and 200
+      const randomValue = Math.floor(Math.random() * 201);
+
+      // Update the dynamic value with the random number
+      this.currentSpeed = randomValue;
+    }, 5000);
     const orderId = Number(localStorage.getItem('orderId'));
     this.orderService.getOrderById(orderId).subscribe({
       next: (orderData: any) => {
@@ -241,5 +250,9 @@ export class DeliveryDataComponent implements OnInit {
         this.toastr.error(error.error.message);
       }
     })
+  }
+
+  checkDeliveryFinished() {
+    return this.data.deliveryStartedAt && !this.data.deliveryFinishedAt;
   }
 }

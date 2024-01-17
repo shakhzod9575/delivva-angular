@@ -163,7 +163,7 @@ export class MyOrderComponent implements OnInit {
 
     if (this.data.deliveryStartedAt) {
       const routeCoordinatesFrom = coordinatesArray[0];
-      const routeCoordinatesTo = coordinatesArray[1];
+      const routeCoordinatesTo = coordinatesArray[2];
       const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
       this.http.get(url).subscribe({
         next: (routeData: any) => {

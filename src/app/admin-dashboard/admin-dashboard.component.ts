@@ -79,11 +79,7 @@ export class AdminDashboardComponent implements OnInit {
     private toastr: ToastrService,
     private cookieService: CookieService
   ) {
-    this.http.get(this.adminDiagramUrl).subscribe({
-      next: (data: any) => {
-        this.productSales = data;
-      }
-    })
+    
   }
 
   userData!: UserData;
@@ -103,6 +99,11 @@ export class AdminDashboardComponent implements OnInit {
               this.router.navigateByUrl("/dashboard");
             }
           }
+          this.http.get(this.adminDiagramUrl).subscribe({
+            next: (data: any) => {
+              this.productSales = data;
+            }
+          });
           localStorage.setItem('userId', this.userData.id?.toString());
         }
       },

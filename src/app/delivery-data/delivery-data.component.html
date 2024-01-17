@@ -36,6 +36,7 @@
         <span style="margin-left: 5px;" class="badge badge-success">{{
         data.status === 'CREATED' ? 'Order is created' : 
             (data.status === 'PICKED_UP' ? 'Order is picked up by courier' : 
+            ((data.status === 'IN_PROGRESS' && data.deliveryFinishedAt) ? "Delivery is finished. Waiting for customer's approval" :
             (data.status === 'IN_PROGRESS' ? 'Order is on the way' : 
             (data.status === 'REJECTED_BY_COURIER' ? 'Order is rejected by courier' : 
             (data.status === 'REJECTED_BY_CUSTOMER' ? 'Order is cancelled by customer' : 
@@ -43,7 +44,7 @@
             (data.status === 'DISPUTE_CLOSED_BY_CUSTOMER' ? 'Dispute is closed by customer' : 
             (data.status === 'UNDER_CONSIDERATION' ? 'Dispute is under consideration' : 
             (data.status === 'DISPUTE_CLOSED_CUSTOMER_WIN' ? 'Dispute is closed and customer is a winner' : 
-            (data.status === 'DISPUTE_CLOSED_COURIER_WIN' ? 'Dispute is closed and courier is a winner' : 'Order is successfully delivered!!!')))))))))}}</span>
+            (data.status === 'DISPUTE_CLOSED_COURIER_WIN' ? 'Dispute is closed and courier is a winner' : 'Order is successfully delivered!!!'))))))))))}}</span>
     </div>
     <div style="text-align: center;">
         <label style="font-size: 20px;">Creator: </label>
@@ -88,6 +89,9 @@
     <div class="map-container" style="margin-left: 77px; margin-right: 77px;">
         <div id="map" style="width: 100%; height: 400px;"></div>
     </div>
+    <div class="add-text styled-span" style="margin-top: 10px;">
+        <span>{{currentSpeed}}</span>
+    </div>
     <div [ngSwitch]="data.status">
         <div style="text-align: center; margin-top: 10px;" *ngSwitchCase="'CREATED'">
             <button class="custom-button" (click)="cancelAnOrder()" style="margin-right: 5px;">Cancel Order</button>
@@ -101,7 +105,7 @@
             <button *ngIf="!data.deliveryStartedAt" class="custom-button" (click)="startTheDelivery()" style="margin-right: 5px;">Start Delivery</button>
             <button *ngIf="data.courier.id != currentUserId" class="custom-button" (click)="rateOrder()" style="margin-right: 5px;"> Rate </button>
         </div>
-        <div style="text-align: center; margin-top: 10px;" *ngIf="data.deliveryStartedAt">
+        <div style="text-align: center; margin-top: 10px;" *ngIf="checkDeliveryFinished()">
             <button class="custom-button" (click)="finishTheDelivery()">
                 Finish Delivery
             </button>

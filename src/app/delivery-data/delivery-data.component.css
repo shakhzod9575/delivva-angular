@@ -18,6 +18,16 @@
     margin-bottom: 20px;
 }
 
+.styled-span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+    background-color: grey;
+  }
+
 label {
     font-weight: bold;
     margin-right: 5px;

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
+import { DiagramDataSelect } from '../services/models/diagram-data-select';
 
 @Component({
   selector: 'app-dashboard',
@@ -81,11 +82,6 @@ export class DashboardComponent implements OnInit {
     private cookieService: CookieService,
     private oauthService: SocialAuthService
   ) { 
-    this.http.get(this.userDiagramUrl + `?userId=${localStorage.getItem('userId')}`).subscribe({
-      next: (data: any) => {
-        this.productSales = data;
-      }
-    })
   }
 
   userData!: UserData;
@@ -105,7 +101,12 @@ export class DashboardComponent implements OnInit {
               this.router.navigateByUrl("/dashboard/admin");
             }
           }
-          localStorage.setItem('userId', this.userData.id?.toString())
+          this.http.get(this.userDiagramUrl + `?userId=${this.userData.id}`).subscribe({
+            next: (data: any) => {
+              this.productSales = data;
+            }
+          })
+          localStorage.setItem('userId', this.userData.id?.toString());
         }
       },
       error: (error: any) => {
@@ -121,5 +122,15 @@ export class DashboardComponent implements OnInit {
     this.oauthService.signOut();
   }
 
-
+  select(data:DiagramDataSelect) {
+    if(data.name === 'Active Orders') {
+      this.router.navigateByUrl('/my-orders/list');
+    } else if(data.name === 'Active Deliveries') {
+      this.router.navigateByUrl('/my-delivery/list');
+    } else if(data.name === 'History(Orders)') {
+      this.router.navigateByUrl('/my-orders/history');
+    } else {
+      this.router.navigateByUrl('/my-delivery/history');
+    }
+  }
 }

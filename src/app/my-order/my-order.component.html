@@ -36,6 +36,7 @@
         <span style="margin-left: 5px;" class="badge badge-success">{{
         data.status === 'CREATED' ? 'Order is created' : 
             (data.status === 'PICKED_UP' ? 'Order is picked up by courier' : 
+            ((data.status === 'IN_PROGRESS' && data.deliveryFinishedAt) ? "Delivery is finished. Waiting for customer's approval" :
             (data.status === 'IN_PROGRESS' ? 'Order is on the way' : 
             (data.status === 'REJECTED_BY_COURIER' ? 'Order is rejected by courier' : 
             (data.status === 'REJECTED_BY_CUSTOMER' ? 'Order is cancelled by customer' : 
@@ -43,7 +44,7 @@
             (data.status === 'DISPUTE_CLOSED_BY_CUSTOMER' ? 'Dispute is closed by customer' : 
             (data.status === 'UNDER_CONSIDERATION' ? 'Dispute is under consideration' : 
             (data.status === 'DISPUTE_CLOSED_CUSTOMER_WIN' ? 'Dispute is closed and customer is a winner' : 
-            (data.status === 'DISPUTE_CLOSED_COURIER_WIN' ? 'Dispute is closed and courier is a winner' : 'Order is successfully delivered!!!')))))))))}}</span>
+            (data.status === 'DISPUTE_CLOSED_COURIER_WIN' ? 'Dispute is closed and courier is a winner' : 'Order is successfully delivered!!!'))))))))))}}</span>
     </div>
     <div style="text-align: center;">
         <label style="font-size: 20px;">Creator: </label>
