@@ -5,10 +5,10 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
-import { Style, Icon } from 'ol/style';
+import { Style, Icon, Text, Fill, Stroke } from 'ol/style';
 import { Router } from '@angular/router';
 import { Order } from '../services/models/order';
 import { OrderService } from '../services/order/order.service';
@@ -19,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RatingComponent } from '../rating/rating.component';
 import { TrackNumber } from '../services/models/track-number';
 import { CurrentGeolocation } from '../services/models/current-geolocation';
+import { ArrowsControl } from '../services/models/SpeedDetector';
+import { Zoom } from 'ol/control';
 
 @Component({
   selector: 'app-delivery-data',
@@ -35,6 +37,7 @@ export class DeliveryDataComponent implements OnInit {
   trackNumber!: TrackNumber;
   currentGeo!: CurrentGeolocation;
   currentSpeed!: number;
+  arrowControl!: ArrowsControl;
 
   getTruckNumberUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/track-number';
   currentGeoLocationUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/geo/current';
@@ -60,10 +63,10 @@ export class DeliveryDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentSpeed = Math.floor(Math.random() * 201);
+    this.currentSpeed = Math.floor(Math.random() * 150);
     setInterval(() => {
       // Generate a random number between 0 and 200
-      const randomValue = Math.floor(Math.random() * 201);
+      const randomValue = Math.floor(Math.random() * 150);
 
       // Update the dynamic value with the random number
       this.currentSpeed = randomValue;
@@ -86,13 +89,16 @@ export class DeliveryDataComponent implements OnInit {
           }),
         }),
       ],
+      controls: [],
       target: 'map',
       view: new View({
         center: [0, 0],
-        zoom: 2, maxZoom: 18,
+        zoom: 2,
+        maxZoom: 18,
 
       }),
     });
+
     console.log(order);
     console.log(this.currentGeo)
     const fromCoordinates = fromLonLat([Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)]);
@@ -106,11 +112,17 @@ export class DeliveryDataComponent implements OnInit {
 
     this.map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 1000 });
 
-    if (this.data.deliveryStartedAt) {
+    if (this.data.deliveryStartedAt && this.currentGeo != undefined && !this.data.deliveryFinishedAt) {
       this.addMarker([
         [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
         [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
         [Number(this.currentGeo.path[0].longitude), Number(this.currentGeo.path[0].latitude)]
+      ]);
+    } else if(this.data.deliveryStartedAt && !this.data.deliveryFinishedAt && this.currentGeo === undefined) {
+      this.addMarker([
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
+        [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)]
       ]);
     } else {
       this.addMarker([
@@ -149,11 +161,11 @@ export class DeliveryDataComponent implements OnInit {
             crossOrigin: 'anonymous',
             src: src,
             scale: 0.6,
-          }),
+          })
         })
       );
-      console.log(this.count);
     });
+
 
     this.count = 0;
 
@@ -164,12 +176,46 @@ export class DeliveryDataComponent implements OnInit {
         features: markers,
       }),
     });
+    if (this.data.deliveryStartedAt && !this.data.deliveryFinishedAt) {
+      setInterval(() => {
+        const randomValue = Math.floor(Math.random() * 150);
 
+        this.currentSpeed = randomValue;
+
+        if (!this.arrowControl) {
+          this.arrowControl = new ArrowsControl(this.map, this.currentSpeed);
+          this.map.addControl(this.arrowControl);
+        } else {
+          this.arrowControl.updateSpeedContent(this.currentSpeed);
+        }
+
+      }, 5000);
+    }
+    this.map.addControl(new Zoom())
     this.map.addLayer(vectorLayer);
 
-    if (this.data.deliveryStartedAt) {
+    if (this.data.deliveryStartedAt && !this.data.deliveryFinishedAt) {
       const routeCoordinatesFrom = coordinatesArray[0];
       const routeCoordinatesTo = coordinatesArray[2];
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
+      this.http.get(url).subscribe({
+        next: (routeData: any) => {
+          const coordinates = routeData.features[0].geometry.coordinates;
+          const route = new LineString(coordinates).transform('EPSG:4326', 'EPSG:3857');
+          const feature = new Feature(route);
+          const vectorSource = vectorLayer!.getSource();
+          if (vectorSource != null) {
+            vectorSource.addFeature(feature);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching route:', error);
+        }
+      }
+      );
+    } else if(this.data.deliveryFinishedAt) {
+      const routeCoordinatesFrom = coordinatesArray[0];
+      const routeCoordinatesTo = coordinatesArray[1];
       const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
       this.http.get(url).subscribe({
         next: (routeData: any) => {

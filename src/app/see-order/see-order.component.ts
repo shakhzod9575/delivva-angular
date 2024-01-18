@@ -19,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RatingComponent } from '../rating/rating.component';
 import { TrackNumber } from '../services/models/track-number';
 import { CurrentGeolocation } from '../services/models/current-geolocation';
+import { ArrowsControl } from '../services/models/SpeedDetector';
+import { Zoom } from 'ol/control';
 
 @Component({
   selector: 'app-see-order',
@@ -34,6 +36,8 @@ export class SeeOrderComponent implements OnInit {
   currentUserId!: number;
   trackNumber!: TrackNumber;
   currentGeo!: CurrentGeolocation;
+  currentSpeed!: number;
+  arrowControl!: ArrowsControl;
 
   getTruckNumberUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/track-number';
   currentGeoLocationUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/geo/current';
@@ -60,6 +64,14 @@ export class SeeOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentSpeed = Math.floor(Math.random() * 201);
+    setInterval(() => {
+      // Generate a random number between 0 and 200
+      const randomValue = Math.floor(Math.random() * 201);
+
+      // Update the dynamic value with the random number
+      this.currentSpeed = randomValue;
+    }, 5000);
     const orderId = Number(localStorage.getItem('orderId'));
     this.orderService.getOrderById(orderId).subscribe({
       next: (orderData: any) => {
@@ -78,6 +90,7 @@ export class SeeOrderComponent implements OnInit {
           }),
         }),
       ],
+      controls: [],
       target: 'map',
       view: new View({
         center: [0, 0],
@@ -97,11 +110,17 @@ export class SeeOrderComponent implements OnInit {
 
     this.map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 1000 });
 
-    if (this.data.deliveryStartedAt) {
+    if (this.data.deliveryStartedAt && this.currentGeo != undefined && !this.data.deliveryFinishedAt) {
       this.addMarker([
         [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
         [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
-        [this.currentGeo.path[0].longitude, this.currentGeo.path[0].latitude]
+        [Number(this.currentGeo.path[0].longitude), Number(this.currentGeo.path[0].latitude)]
+      ]);
+    } else if(this.data.deliveryStartedAt && !this.data.deliveryFinishedAt && this.currentGeo === undefined) {
+      this.addMarker([
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
+        [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)]
       ]);
     } else {
       this.addMarker([
@@ -155,6 +174,22 @@ export class SeeOrderComponent implements OnInit {
         features: markers,
       }),
     });
+    if (this.data.deliveryStartedAt && !this.data.deliveryFinishedAt) {
+      setInterval(() => {
+        const randomValue = Math.floor(Math.random() * 201);
+
+        this.currentSpeed = randomValue;
+
+        if (!this.arrowControl) {
+          this.arrowControl = new ArrowsControl(this.map, this.currentSpeed);
+          this.map.addControl(this.arrowControl);
+        } else {
+          this.arrowControl.updateSpeedContent(this.currentSpeed);
+        }
+
+      }, 5000);
+    }
+    this.map.addControl(new Zoom())
 
     this.map.addLayer(vectorLayer);
 

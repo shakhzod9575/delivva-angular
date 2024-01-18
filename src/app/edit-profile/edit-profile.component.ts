@@ -110,7 +110,8 @@ export class EditProfileComponent implements OnInit {
         canvas.height = height;
         ctx.drawImage(img, 0, 0, width, height);
 
-        const resizedImage = canvas.toDataURL('image/png');
+        const originalMimeType = file.type;
+        const resizedImage = canvas.toDataURL(originalMimeType);
         console.log('Selected file:', resizedImage);
         callback(resizedImage);
       };

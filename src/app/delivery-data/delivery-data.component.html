@@ -89,9 +89,6 @@
     <div class="map-container" style="margin-left: 77px; margin-right: 77px;">
         <div id="map" style="width: 100%; height: 400px;"></div>
     </div>
-    <div class="add-text styled-span" style="margin-top: 10px;">
-        <span>{{currentSpeed}}</span>
-    </div>
     <div [ngSwitch]="data.status">
         <div style="text-align: center; margin-top: 10px;" *ngSwitchCase="'CREATED'">
             <button class="custom-button" (click)="cancelAnOrder()" style="margin-right: 5px;">Cancel Order</button>
