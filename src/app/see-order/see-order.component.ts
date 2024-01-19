@@ -193,9 +193,28 @@ export class SeeOrderComponent implements OnInit {
 
     this.map.addLayer(vectorLayer);
 
-    if (this.data.deliveryStartedAt) {
+    if (this.data.deliveryStartedAt && !this.data.deliveryFinishedAt) {
       const routeCoordinatesFrom = coordinatesArray[0];
       const routeCoordinatesTo = coordinatesArray[2];
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
+      this.http.get(url).subscribe({
+        next: (routeData: any) => {
+          const coordinates = routeData.features[0].geometry.coordinates;
+          const route = new LineString(coordinates).transform('EPSG:4326', 'EPSG:3857');
+          const feature = new Feature(route);
+          const vectorSource = vectorLayer!.getSource();
+          if (vectorSource != null) {
+            vectorSource.addFeature(feature);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching route:', error);
+        }
+      }
+      );
+    } else if(this.data.deliveryFinishedAt) {
+      const routeCoordinatesFrom = coordinatesArray[0];
+      const routeCoordinatesTo = coordinatesArray[1];
       const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
       this.http.get(url).subscribe({
         next: (routeData: any) => {

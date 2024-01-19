@@ -133,4 +133,17 @@ export class DashboardComponent implements OnInit {
       this.router.navigateByUrl('/my-delivery/history');
     }
   }
+
+  deleteAccountUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users';
+
+  deleteAccount() {
+    const userId = localStorage.getItem('userId');
+    this.http.delete(this.deleteAccountUrl + `?userId=${userId}`).subscribe({
+      next: () => {
+        this.toastr.success("Account is successfully deleted!!!");
+        localStorage.clear();
+        this.router.navigateByUrl('/home');
+      }
+    })
+  }
 }

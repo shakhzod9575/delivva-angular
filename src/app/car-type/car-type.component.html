@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <div class="container">
-    <h2 style="margin-top: 80px;">Choose Car Type and Invite Cxsptouriers</h2>
+    <h2 style="margin-top: 80px;">Choose Car Type and Invite Couriers</h2>
 <select name="vehicleType" style="width: 150px; height: 40px; cursor: pointer;" aria-label=".form-select-lg example" [(ngModel)]="selectedVehicleType" (change)="onVehicleTypeChange()">
     <option *ngFor="let vehicleType of vehicleTypes" [ngValue]="vehicleType">
       {{vehicleType.name}}

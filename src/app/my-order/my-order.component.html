@@ -100,7 +100,7 @@
         <div style="text-align: center; margin-top: 10px;" *ngSwitchCase="'PICKED_UP'">
             <button class="custom-button" (click)="cancelAnOrder()">Cancel Order</button>
         </div>
-        <div style="text-align: center; margin-top: 10px;" *ngIf="data.deliveryFinishedAt">
+        <div style="text-align: center; margin-top: 10px;" *ngIf="checkItsDelivered()">
             <button class="custom-button" style="margin-right: 5px;" (click)="approveDelivery()"> Approve Delivery</button>
         </div>
         <div style="text-align: center; margin-top: 10px;" *ngSwitchDefault="">

@@ -9,9 +9,7 @@ import { fromLonLat } from 'ol/proj';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Icon } from 'ol/style';
-import { Router } from '@angular/router';
 import { Order } from '../services/models/order';
-import { DataTransferService } from '../services/data-transfer/data-transfer.service';
 import { OrderService } from '../services/order/order.service';
 
 @Component({

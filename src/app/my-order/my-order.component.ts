@@ -113,11 +113,17 @@ export class MyOrderComponent implements OnInit {
 
     this.map.getView().fit(extent, { padding: [20, 20, 20, 20], duration: 1000 });
 
-    if (this.data.deliveryStartedAt && this.currentGeo != undefined) {
+    if (this.data.deliveryStartedAt && this.currentGeo != undefined && !this.data.deliveryFinishedAt) {
       this.addMarker([
         [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
         [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
-        [this.currentGeo.path[0].longitude, this.currentGeo.path[0].latitude]
+        [Number(this.currentGeo.path[0].longitude), Number(this.currentGeo.path[0].latitude)]
+      ]);
+    } else if(this.data.deliveryStartedAt && !this.data.deliveryFinishedAt && this.currentGeo === undefined) {
+      this.addMarker([
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)],
+        [Number(order.finalDestination.longitude), Number(order.finalDestination.latitude)],
+        [Number(order.startingDestination.longitude), Number(order.startingDestination.latitude)]
       ]);
     } else {
       this.addMarker([
@@ -177,7 +183,6 @@ export class MyOrderComponent implements OnInit {
         const randomValue = Math.floor(Math.random() * 201);
 
         this.currentSpeed = randomValue;
-        const randomDistance = Math.floor(Math.random() * 2000);
 
         if (!this.arrowControl) {
           this.arrowControl = new ArrowsControl(this.map, this.currentSpeed);
@@ -192,9 +197,28 @@ export class MyOrderComponent implements OnInit {
 
     this.map.addLayer(vectorLayer);
 
-    if (this.data.deliveryStartedAt) {
+    if (this.data.deliveryStartedAt && !this.data.deliveryFinishedAt) {
       const routeCoordinatesFrom = coordinatesArray[0];
       const routeCoordinatesTo = coordinatesArray[2];
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
+      this.http.get(url).subscribe({
+        next: (routeData: any) => {
+          const coordinates = routeData.features[0].geometry.coordinates;
+          const route = new LineString(coordinates).transform('EPSG:4326', 'EPSG:3857');
+          const feature = new Feature(route);
+          const vectorSource = vectorLayer!.getSource();
+          if (vectorSource != null) {
+            vectorSource.addFeature(feature);
+          }
+        },
+        error: (error) => {
+          console.error('Error fetching route:', error);
+        }
+      }
+      );
+    } else if(this.data.deliveryFinishedAt) {
+      const routeCoordinatesFrom = coordinatesArray[0];
+      const routeCoordinatesTo = coordinatesArray[1];
       const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62487dc5a35097cb461f9671bec1d23408fe&start=${routeCoordinatesFrom[0]},${routeCoordinatesFrom[1]}&end=${routeCoordinatesTo[0]},${routeCoordinatesTo[1]}`;
       this.http.get(url).subscribe({
         next: (routeData: any) => {
@@ -238,7 +262,7 @@ export class MyOrderComponent implements OnInit {
     }
   }
 
-  statusChangeUrl: string = 'http://Delivva-core-env.eba-n3sj6avt.eu-north-1.elasticbeanstalk.com/api/v1/orders/status';
+  statusChangeUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/status';
 
   approveDelivery() {
     const orderId = Number(localStorage.getItem('orderId'));
@@ -252,6 +276,10 @@ export class MyOrderComponent implements OnInit {
         window.location.reload();
       }
     })
+  }
+
+  checkItsDelivered() {
+    return this.data.deliveryFinishedAt && this.data.status != 'DONE';
   }
 
 }

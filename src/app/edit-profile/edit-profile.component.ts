@@ -157,7 +157,7 @@ export class EditProfileComponent implements OnInit {
         this.newPhoneNumber = data.phoneNumber || "";
         this.newUsername = data.username || "";
         const link = data.photoLink;
-        if(link != null) {
+        if (link != null) {
           this.selectedPhotoUrl = link;
           this.newPhotoUrl = link;
         }
@@ -166,8 +166,8 @@ export class EditProfileComponent implements OnInit {
   }
 
   validateAll() {
-    if(
-      this.newFirstName != "" && 
+    if (
+      this.newFirstName != "" &&
       this.newLastName != "" &&
       this.newUsername != "" &&
       this.newPhoneNumber != ""
@@ -175,15 +175,15 @@ export class EditProfileComponent implements OnInit {
       const pattern = /^\+[0-9]+$/;
       const fullNamePattern = /^[A-Za-z]+$/;
       let check = false;
-      if(this.newFirstName !== this.oldFirstName && fullNamePattern.test(this.newFirstName)) {
+      if (this.newFirstName !== this.oldFirstName && fullNamePattern.test(this.newFirstName)) {
         check = true;
-      } else if(this.newLastName !== this.oldLastName && fullNamePattern.test(this.newLastName)) {
+      } else if (this.newLastName !== this.oldLastName && fullNamePattern.test(this.newLastName)) {
         check = true;
-      } else if(this.newPhoneNumber !== this.oldPhoneNumber && pattern.test(this.newPhoneNumber)) {
+      } else if (this.newPhoneNumber !== this.oldPhoneNumber && pattern.test(this.newPhoneNumber)) {
         check = true;
-      } else if(this.newUsername !== this.oldUsername) {
+      } else if (this.newUsername !== this.oldUsername) {
         check = true;
-      } else if(this.newPhotoUrl !== this.selectedPhotoUrl) {
+      } else if (this.newPhotoUrl !== this.selectedPhotoUrl) {
         check = true;
       } else {
         check = false;
@@ -207,10 +207,14 @@ export class EditProfileComponent implements OnInit {
       next: (data: any) => {
         console.log(data);
         this.toastr.success("Profile is successfully updated!!!");
-        if(this.selectedPhotoInFile != null) {
+        if (this.selectedPhotoInFile != null) {
           this.service.savePhoto(this.selectedPhotoInFile);
         }
-        this.router.navigateByUrl("/profile");
+        if (this.userRole === 'ROLE_USER') {
+          this.router.navigateByUrl("/dashboard");
+        } else if (this.userRole === 'ROLE_ADMIN') {
+          this.router.navigateByUrl('/dashboard/admin')
+        }
       },
       error: (error: any) => {
         this.toastr.error(error.error.message);
