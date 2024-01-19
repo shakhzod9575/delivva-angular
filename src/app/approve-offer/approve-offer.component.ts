@@ -27,8 +27,8 @@ export class ApproveOfferComponent implements OnInit {
       this.http.get(this.approveOrderUrl + `?userId=${userId}&orderId=${orderId}`)
                       .subscribe({
                         next: () => {
-                          this.router.navigateByUrl("/login");
-                          this.toastr.info("You approved the order offer. Please login to see the changes!!!");
+                          this.router.navigateByUrl("/dashboard");
+                          this.toastr.info("You approved the order offer!!!");
                         },
                         error: (error: any) => {
                           this.toastr.error(error.error.message);

@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { DiagramDataSelect } from '../services/models/diagram-data-select';
+import { InProgressOrder } from '../services/models/InProgressOrder';
 
 @Component({
   selector: 'app-dashboard',
@@ -135,14 +136,23 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteAccountUrl: string = 'https://fm7kgpvst4.execute-api.us-east-1.amazonaws.com/auth/users';
+  checkOrderUrl: string = 'https://ybp0yqkx10.execute-api.eu-north-1.amazonaws.com/core-service/orders/user-has-started-orders';
 
   deleteAccount() {
     const userId = localStorage.getItem('userId');
-    this.http.delete(this.deleteAccountUrl + `?userId=${userId}`).subscribe({
-      next: () => {
-        this.toastr.success("Account is successfully deleted!!!");
-        localStorage.clear();
-        this.router.navigateByUrl('/home');
+    this.http.get<InProgressOrder>(this.checkOrderUrl + `?userId=${userId}`).subscribe({
+      next: (checkData: InProgressOrder) => {
+        if(checkData.hasActiveOrders === true) {
+          this.toastr.error("You cannot delete your account untill you finish all active orders and deliveries");
+        } else {
+          this.http.delete(this.deleteAccountUrl + `?userId=${userId}`).subscribe({
+            next: () => {
+              this.toastr.success("Account is successfully deleted!!!");
+              localStorage.clear();
+              this.router.navigateByUrl('/home');
+            }
+          })
+        }
       }
     })
   }
